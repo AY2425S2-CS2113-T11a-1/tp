@@ -11,6 +11,7 @@ public class FinanceTracker {
     public static final String COMMAND_LOG_EXPENSE = "log-expense ";
     public static final String COMMAND_LIST_INCOME = "list income";
     public static final String COMMAND_EXIT = "exit";
+    public static final String COMMAND_DELETE_INCOME = "delete-income ";
     public static final String COMMAND_DELETE_EXPENSE = "delete-expense ";
 
     // Command prefixes and their lengths (avoiding magic numbers)
@@ -48,6 +49,8 @@ public class FinanceTracker {
             addIncome(input);
         } else if (input.startsWith(COMMAND_LOG_EXPENSE)) {
             logExpense(input);
+        } else if (input.startsWith(COMMAND_DELETE_INCOME)) {
+            deleteIncome(input);
         } else if (COMMAND_LIST_INCOME.equals(input)) {
             listIncome();
         } else if (input.startsWith(COMMAND_DELETE_EXPENSE)) {
@@ -185,6 +188,23 @@ public class FinanceTracker {
     }
 
     /**
+     * Deletes an income from the finance tracker based on its description.
+     * If multiple incomes have the same description, only the first occurrence is removed.
+     *
+     * @param income the description of the income to be deleted
+     */
+
+    public void deleteIncome(String income) {
+        if (income.startsWith(COMMAND_DELETE_INCOME)) {
+            income = income.substring(COMMAND_DELETE_INCOME.length()).trim();
+        }
+
+        boolean found = false;
+        for (int i = 0; i < incomes.size(); i++) {
+            if (incomes.get(i).getCategory().equalsIgnoreCase(income)) {
+                incomes.remove(i);
+                System.out.println("Income deleted: " + income);
+/**
      * Deletes an expense from the finance tracker based on its description.
      * If multiple expenses have the same description, only the first occurrence is removed.
      *
@@ -206,6 +226,7 @@ public class FinanceTracker {
         }
 
         if (!found) {
+            System.out.println("Income not found: " + income);
             System.out.println("Expense not found: " + input);
         }
     }
