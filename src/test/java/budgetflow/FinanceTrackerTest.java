@@ -9,8 +9,7 @@ import java.util.Scanner;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class FinanceTrackerTest {
-    public static final String EMPTY_EXPENSE_LIST_MESSAGE =
-            "There is currently no expense in your list right now. Please add more expenses to continue";
+    public static final String EMPTY_EXPENSE_MESSAGE = "No expenses have been logged yet.";
 
     @Test
     void viewAllExpenses_normalTest() {
@@ -29,10 +28,10 @@ class FinanceTrackerTest {
         System.setOut(originalOut);
 
         // Assert
-        String expectedOutput = "Expenses log: " + System.lineSeparator() +
-                "Lunch | $12.50 | 2025-03-13" + System.lineSeparator() +
-                "Transport | $3.20 | 2025-03-12" + System.lineSeparator() +
-                "Groceries | $25.00 | 2025-03-11" + System.lineSeparator() + System.lineSeparator() +
+        String expectedOutput = "Expenses log:" + System.lineSeparator() +
+                "1 | food | Lunch | $12.50 | 2025-03-13" + System.lineSeparator() +
+                "2 | transport | Transport | $3.20 | 2025-03-12" + System.lineSeparator() +
+                "3 | food | Groceries | $25.00 | 2025-03-11" + System.lineSeparator() +
                 "Total Expenses: $40.70" + System.lineSeparator();
 
         assertEquals(expectedOutput, outContent.toString());
@@ -52,12 +51,7 @@ class FinanceTrackerTest {
         // Reset System.out
         System.setOut(originalOut);
 
-        // Assert
-        String expectedOutput = "Expenses log: " + System.lineSeparator() +
-                EMPTY_EXPENSE_LIST_MESSAGE + System.lineSeparator() +
-                "Total Expenses: $0.00" + System.lineSeparator();
-
-        assertEquals(expectedOutput, outContent.toString());
+        assertEquals(EMPTY_EXPENSE_MESSAGE + System.lineSeparator(), outContent.toString());
     }
 
     @Test
@@ -77,7 +71,7 @@ class FinanceTrackerTest {
         System.setOut(originalOut);
         // Assert
         String expectedOutput = "Here are all matching expenses: " + System.lineSeparator() +
-                "Lunch | $12.50 | 2025-03-13" + System.lineSeparator();
+                "food | Lunch | $12.50 | 2025-03-13" + System.lineSeparator();
         assertEquals(expectedOutput, outContent.toString());
     }
 
@@ -114,9 +108,9 @@ class FinanceTrackerTest {
         System.setOut(originalOut);
         // Assert
         String expectedOutput = "Here are all matching expenses: " + System.lineSeparator() +
-                "Lunch | $12.50 | 2025-03-13" + System.lineSeparator() +
-                "LateLunch | $13.50 | 2025-03-14" + System.lineSeparator() +
-                "ExpensiveLunch | $30.00 | 2025-03-15" + System.lineSeparator();
+                "food | Lunch | $12.50 | 2025-03-13" + System.lineSeparator() +
+                "food | Late Lunch | $13.50 | 2025-03-14" + System.lineSeparator() +
+                "food | Expensive Lunch | $30.00 | 2025-03-15" + System.lineSeparator();
         assertEquals(expectedOutput, outContent.toString());
     }
 
@@ -124,9 +118,9 @@ class FinanceTrackerTest {
         FinanceTracker financeTracker = new FinanceTracker(new Scanner(System.in));
         financeTracker.logExpense("log-expense category/food desc/Lunch amt/12.5 d/2025-03-13");
         financeTracker.logExpense("log-expense category/transport desc/Transport  amt/3.2 d/2025-03-12");
-        financeTracker.logExpense("log-expense category/food desc/LateLunch amt/13.5 d/2025-03-14");
+        financeTracker.logExpense("log-expense category/food desc/Late Lunch amt/13.5 d/2025-03-14");
         financeTracker.logExpense("log-expense category/food desc/Groceries amt/25.0 d/2025-03-11");
-        financeTracker.logExpense("log-expense category/food desc/ExpensiveLunch amt/30.0 d/2025-03-15");
+        financeTracker.logExpense("log-expense category/food desc/Expensive Lunch amt/30.0 d/2025-03-15");
         return financeTracker;
     }
 
