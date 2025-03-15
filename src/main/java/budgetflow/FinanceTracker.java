@@ -143,7 +143,7 @@ public class FinanceTracker {
 
     /**
      * Logs an expense in the finance tracker.
-     * Expected format: log-expense desc/DESCRIPTION amt/AMOUNT d/DATE
+     * Expected format: log-expense category/CATEGORY desc/DESCRIPTION amt/AMOUNT d/DATE
      * Example: log-expense category/Food desc/LunchAtCafe amt/12.00 d/Feb18
      *
      * @param input the full command string
