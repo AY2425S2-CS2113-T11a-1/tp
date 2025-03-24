@@ -27,4 +27,5 @@ Total expenses for 04-2025: $0.00
 What would you like to do?
 Expense deleted: Coffee
 What would you like to do?
+
 Goodbye!
