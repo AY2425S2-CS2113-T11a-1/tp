@@ -9,4 +9,11 @@ delete-income Salary
 update-expense index/1 category/drink desc/Coffee amt/4.00 d/06-04-2025
 compare 03-2025 04-2025
 delete-expense Coffee
+log-expense category/drink desc/Coffee amt/3.50 d/06-04-2025
+find-expense /category drink
+find-expense /desc Coffee
+find-expense /amt 4.00
+find-expense /amtrange 0.00 5.00
+find-expense /d 06-04-2025
+find-expense /drange 01-04-2025 10-04-2025
 exit

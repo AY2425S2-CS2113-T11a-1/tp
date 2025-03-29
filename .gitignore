@@ -17,5 +17,8 @@ bin/
 text-ui-test/EXPECTED-UNIX.TXT
 
 /text-ui-test/data/budgetflow.txt
+/text-ui-test/data/saving_goal.txt
 
 /data/budgetflow.txt
+/data/saving_goal.txt
+

@@ -40,4 +40,29 @@ What would you like to do?
 Saving goal retrieved: 0.0
 Expense deleted: Coffee
 What would you like to do?
+Saving goal retrieved: 0.0
+Expense logged: drink | Coffee | $3.50 | 06-04-2025
+What would you like to do?
+Here are all matching expenses:
+drink | Coffee | $3.50 | 06-04-2025
+
+What would you like to do?
+Here are all matching expenses:
+drink | Coffee | $3.50 | 06-04-2025
+
+What would you like to do?
+Sorry, I cannot find any expenses matching your keyword: 4.00
+What would you like to do?
+Here are all matching expenses:
+drink | Coffee | $3.50 | 06-04-2025
+
+What would you like to do?
+Here are all matching expenses:
+drink | Coffee | $3.50 | 06-04-2025
+
+What would you like to do?
+Here are all matching expenses:
+drink | Coffee | $3.50 | 06-04-2025
+
+What would you like to do?
 Goodbye!
