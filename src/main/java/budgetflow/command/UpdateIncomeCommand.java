@@ -41,12 +41,14 @@ public class UpdateIncomeCommand extends Command {
     private static final String AMT_PATTERN = "amt/([^ ]+)";
     private static final String DATE_PATTERN = "d/([^ ]+)";
     private static final String CORRECT_DATE_PATTERN = "\\d{2}-\\d{2}-\\d{4}";
-    private static final String CORRECT_AMOUNT_PATTERN = "[0-9]+(\\.[0-9]*)?";
+    private static final String CORRECT_AMOUNT_PATTERN = "\\d{1,7}(\\.\\d{1,2})?";
+    private static final String VALID_AMOUNT_FORMAT = "^\\d+(\\.\\d+)?$";
 
     private static final int INDEX_POSITION_IN_1_INDEX = 0;
     private static final int MINIMUM_INDEX = 0;
     private static final int UPDATE_PARAMETER_GROUP = 1;
     private static final int MINIMUM_PARTS_FOR_UPDATE = 2;
+
 
     //@@ author Yikbing
     /**
@@ -202,10 +204,42 @@ public class UpdateIncomeCommand extends Command {
             if (numericMatcher.matches()) {
                 amount = Double.parseDouble(extractedAmount);
             } else{
-                throw new MissingAmountException(ERROR_INVALID_AMOUNT);
+                verifyErrorType(extractedAmount);
             }
         }
         return amount;
+    }
+
+    /**
+     * Verifies the format of a monetary amount string and throws a {@link MissingAmountException}
+     * if the format is invalid. The method checks whether:
+     *   The integer part (before the decimal point) exceeds 7 digits.
+     *   The decimal part (after the decimal point) exceeds 2 digits.
+     * If neither of these conditions is met, a generic invalid amount exception is thrown.
+     *
+     * @param extractedAmount the monetary amount string to be validated
+     * @throws MissingAmountException if:
+     *           the integer part exceeds 7 digits,
+     *           the decimal part exceeds 2 digits, or
+     *           the format is otherwise deemed invalid
+     */
+    private static void verifyErrorType(String extractedAmount) throws MissingAmountException {
+
+        if (!extractedAmount.matches(VALID_AMOUNT_FORMAT)) {
+            throw new MissingAmountException(ERROR_INVALID_AMOUNT);
+        }
+        String[] parts = extractedAmount.split("\\.");
+        String integerPart = parts[0];
+        String decimalPart = parts.length > 1 ? parts[1] : "";
+
+        if (integerPart.length() > 7) {
+            throw new MissingAmountException("ERROR: Integer part exceeds 7 digits.");
+        }
+
+        if (decimalPart.length() > 2) {
+            throw new MissingAmountException("ERROR: Decimal part exceeds 2 digits.");
+        }
+
     }
 
     //@@ author Yikbing

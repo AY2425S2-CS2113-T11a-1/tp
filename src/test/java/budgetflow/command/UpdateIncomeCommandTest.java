@@ -106,6 +106,44 @@ public class UpdateIncomeCommandTest {
 
     //@@ author Yikbing
     @Test
+    public void updateIncome_inValidIntegerAmt_throwsException() throws FinanceException {
+        ExpenseList expenseList = new ExpenseList();
+        List<Income> incomes = new ArrayList<>();
+        Command c1 = new AddIncomeCommand("add category/Salary amt/2500.00 d/15-03-2025");
+        c1.execute(incomes, expenseList);
+        Command c2 = new UpdateIncomeCommand("update-income 1 amt/12345678");
+
+        try{
+            c2.execute(incomes, expenseList);
+            fail();
+        } catch (FinanceException e) {
+            String expectedError = "ERROR: Integer part exceeds 7 digits.";
+            assertEquals(expectedError, e.getMessage());
+        }
+
+    }
+
+    //@@ author Yikbing
+    @Test
+    public void updateIncome_inValidDecimalAmt_throwsException() throws FinanceException {
+        ExpenseList expenseList = new ExpenseList();
+        List<Income> incomes = new ArrayList<>();
+        Command c1 = new AddIncomeCommand("add category/Salary amt/2500.00 d/15-03-2025");
+        c1.execute(incomes, expenseList);
+        Command c2 = new UpdateIncomeCommand("update-income 1 amt/25.123");
+
+        try{
+            c2.execute(incomes, expenseList);
+            fail();
+        } catch (FinanceException e) {
+            String expectedError = "ERROR: Decimal part exceeds 2 digits.";
+            assertEquals(expectedError, e.getMessage());
+        }
+
+    }
+
+    //@@ author Yikbing
+    @Test
     public void updateIncome_inValidInputDate_throwsException() throws FinanceException {
         ExpenseList expenseList = new ExpenseList();
         List<Income> incomes = new ArrayList<>();
