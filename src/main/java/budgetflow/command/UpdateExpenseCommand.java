@@ -32,7 +32,8 @@ public class UpdateExpenseCommand extends Command {
     private static final String ERROR_INVALID_CATEGORY = "Error: Invalid category.";
     private static final String ERROR_INVALID_DESCRIPTION = "Error: Invalid description.";
     private static final Pattern CATEGORY_PATTERN = Pattern.compile("category/([^ ]+)");
-    private static final Pattern AMT_PATTERN = Pattern.compile("amt/\\s*([1-9][0-9]*(\\.[0-9]*[1-9])?|0\\.[0-9]*[1-9])");
+    private static final Pattern AMT_PATTERN = Pattern.compile(
+            "amt/\\s*([1-9][0-9]*(\\.[0-9]*[1-9])?|0\\.[0-9]*[1-9])");
     private static final Pattern DESC_PATTERN = Pattern.compile("desc/([^ ]+)");
     private static final Pattern DATE_PATTERN = Pattern.compile("d/(\\d{2}-\\d{2}-\\d{4,})");
 
