@@ -34,13 +34,17 @@ public class UpdateExpenseCommand extends Command {
     private static final String ERROR_EMPTY_EXPENSE_LIST = "Error: No expense entries exist to update.";
     private static final String ERROR_WRONG_DATE_FORMAT = "Error: Invalid date format. Usage: DD-MM-YYYY";
     private static final String ERROR_INVALID_AMOUNT = "Error: Invalid amount format.";
-    private static final String ERROR_INVALID_CATEGORY = "Error: Invalid category. It must contain only alphanumeric characters.";
-    private static final String ERROR_INVALID_DESCRIPTION = "Error: Invalid description. It must contain only alphanumeric characters.";
+    private static final String ERROR_INVALID_CATEGORY = "Error: Invalid category. " +
+            "It must contain only alphanumeric characters.";
+    private static final String ERROR_INVALID_DESCRIPTION = "Error: Invalid description. " +
+            "It must contain only alphanumeric characters.";
     private static final Pattern CATEGORY_PATTERN = Pattern.compile("category/([^\\s]+)\\s*(desc/|amt/|d/|$)");
-    private static final Pattern AMT_PATTERN = Pattern.compile("amt/\\s*([1-9][0-9]*(\\.[0-9]*[1-9])?|0\\.[0-9]*[1-9])");
+    private static final Pattern AMT_PATTERN = Pattern.compile(
+            "amt/\\s*([1-9][0-9]*(\\.[0-9]*[1-9])?|0\\.[0-9]*[1-9])");
     private static final Pattern DESC_PATTERN = Pattern.compile("desc/([^\\s]+)\\s*(amt/|d/|$)");
     private static final Pattern DATE_PATTERN = Pattern.compile("d/\\s*(\\d{2}-\\d{2}-\\d{4,})");
-    private static final String ERROR_MORE_THAN_7_DIGITS = "Amount exceeds 7 digits. Please enter a number with up to 7 digits.";
+    private static final String ERROR_MORE_THAN_7_DIGITS = "Amount exceeds 7 digits. " +
+            "Please enter a number with up to 7 digits.";
     private static final String ERROR_MORE_THAN_2_DP = "Amount must have at most 2 decimal places.";
     private static final String EMPTY_SPACE = " ";
 
