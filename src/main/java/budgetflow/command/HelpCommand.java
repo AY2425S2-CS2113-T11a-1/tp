@@ -37,7 +37,7 @@ public class HelpCommand extends Command {
         helpMessage.append("To View all expenses: view-all-expense\n" + CYAN);
         helpMessage.append("To view all Income: list income\n" + RESET);
         helpMessage.append("To delete an Expense: delete-expense <INDEX>>\n" + CYAN);
-        helpMessage.append("To delete an Income: delete-income <INDEX>\n" + RESET);
+        helpMessage.append("To delete an Income: delete-income <CATEGORY>\n" + RESET);
         helpMessage.append("To find an Expense:\n" + CYAN +
                 "find-expense /desc <DESCRIPTION>\n" + YELLOW +
                 "OR find-expense /d <DD-MM-YYYY>\n" + CYAN +
@@ -56,7 +56,7 @@ public class HelpCommand extends Command {
         helpMessage.append("To filter income by date: filter-income date from/<DD-MM-YYYY> to/<DD-MM-YYYY>\n" + CYAN);
         helpMessage.append("To filter income by amount: filter-income amount from/<AMOUNT 1> to/<AMOUNT 2>\n" + RESET);
         helpMessage.append("To filter income by category: filter-income category/<CATEGORY>\n" + CYAN);
-        helpMessage.append("To exit the application: exit" + RESET);
+        helpMessage.append("To exit the application: exit" + RESET).append(System.lineSeparator());
         String border = "=".repeat(60);
 
         helpMessage.append(border).append(System.lineSeparator());

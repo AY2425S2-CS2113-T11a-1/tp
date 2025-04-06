@@ -76,10 +76,10 @@ public class LogExpenseCommand extends Command{
         Double amount = null;
         String date = null;
 
-        String categoryPattern = "category/(.*?) (desc/|amt/|d/|$)";
-        String descPattern = "desc/(.*?) (amt/|d/|$)";
+        String categoryPattern = "category/([a-zA-Z0-9]+) (desc/|amt/|d/|$)";
+        String descPattern = "desc/([a-zA-Z0-9]+) (amt/|d/|$)";
         String amtPattern = "amt/\\s*([1-9][0-9]*(\\.[0-9]*[1-9])?|0\\.[0-9]*[1-9])";
-        String datePattern = "d/\\s*(\\d{2}-\\d{2}-\\d{4})";
+        String datePattern = "d/\\s*(\\d{2}-\\d{2}-\\d{4,})";
 
         java.util.regex.Pattern pattern;
         java.util.regex.Matcher matcher;

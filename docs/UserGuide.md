@@ -583,8 +583,8 @@ A: Yes! You can use the `update-expense` or `delete-expense` commands to modify 
 | `filter-income date from/<DATE1> to/<DATE2>`                                                                          | Filters income entries within a specific date range.                     |
 | `filter-income amount from/<AMOUNT1> to/<AMOUNT1>`                                                                    | Filters income entries within a specified amount range.                  |
 | `filter-income category/<CATEGORY>`                                                                                   | Filters income by category.                                              |
-| `delete-income <NAME OF INCOME ENTRY>`                                                                                | Deletes an income entry with the category `<NAME OF INCOME ENTRY>`.      |
-| `delete-expense <NAME OF EXPENSE ENTRY>`                                                                              | Deletes an expense entry with the description `<NAME OF EXPENSE ENTRY>`. |
+| `delete-income <CATEGORY OF INCOME ENTRY>`                                                                            | Deletes an income entry with the category `<NAME OF INCOME ENTRY>`.      |
+| `delete-expense <DESCRIPTION OF EXPENSE ENTRY>`                                                                       | Deletes an expense entry with the description `<NAME OF EXPENSE ENTRY>`. |
 | `update-income [INDEX] category/[UPDATED_CATEGORY] amt/[UPDATED_AMOUNT] d/[UPDATED_DATE]`                             | Updates an income entry at index `<INDEX>`.                              |
 | `compare <Month1> <Month2>`                                                                                           | Compares total expenses between `<Month1>` and `<Month2>`.               | 
 | `exit`                                                                                                                | Exits the application safely.                                            |
