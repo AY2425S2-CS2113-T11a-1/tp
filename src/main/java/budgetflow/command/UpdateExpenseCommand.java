@@ -13,11 +13,16 @@ import budgetflow.storage.Storage;
 import budgetflow.parser.DateValidator;
 
 import java.util.List;
-import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.logging.Logger;
 
 public class UpdateExpenseCommand extends Command {
+    public static final String CATEGORY_REGEX = "^[a-zA-Z0-9]+$";
+    public static final String DESCRIPTION_REGEX = "^[a-zA-Z0-9]+$";
+    public static final int MAX_DIGITS = 7;
+    public static final int MAX_DECIMAL_PLACES = 2;
+
     private static final Logger logger = Logger.getLogger(UpdateExpenseCommand.class.getName());
 
     private static final String UPDATE_EXPENSE_COMMAND_PREFIX = "update-expense ";
@@ -29,13 +34,14 @@ public class UpdateExpenseCommand extends Command {
     private static final String ERROR_EMPTY_EXPENSE_LIST = "Error: No expense entries exist to update.";
     private static final String ERROR_WRONG_DATE_FORMAT = "Error: Invalid date format. Usage: DD-MM-YYYY";
     private static final String ERROR_INVALID_AMOUNT = "Error: Invalid amount format.";
-    private static final String ERROR_INVALID_CATEGORY = "Error: Invalid category.";
-    private static final String ERROR_INVALID_DESCRIPTION = "Error: Invalid description.";
-    private static final Pattern CATEGORY_PATTERN = Pattern.compile("category/([^ ]+)");
-    private static final Pattern AMT_PATTERN = Pattern.compile("amt/([0-9]+(\\.[0-9]*)?)");
-    private static final Pattern DESC_PATTERN = Pattern.compile("desc/([^ ]+)");
-    private static final Pattern DATE_PATTERN = Pattern.compile("d/(\\d{2}-\\d{2}-\\d{4})");
-
+    private static final String ERROR_INVALID_CATEGORY = "Error: Invalid category. It must contain only alphanumeric characters.";
+    private static final String ERROR_INVALID_DESCRIPTION = "Error: Invalid description. It must contain only alphanumeric characters.";
+    private static final Pattern CATEGORY_PATTERN = Pattern.compile("category/([^\\s]+)\\s*(desc/|amt/|d/|$)");
+    private static final Pattern AMT_PATTERN = Pattern.compile("amt/\\s*([1-9][0-9]*(\\.[0-9]*[1-9])?|0\\.[0-9]*[1-9])");
+    private static final Pattern DESC_PATTERN = Pattern.compile("desc/([^\\s]+)\\s*(amt/|d/|$)");
+    private static final Pattern DATE_PATTERN = Pattern.compile("d/\\s*(\\d{2}-\\d{2}-\\d{4,})");
+    private static final String ERROR_MORE_THAN_7_DIGITS = "Amount exceeds 7 digits. Please enter a number with up to 7 digits.";
+    private static final String ERROR_MORE_THAN_2_DP = "Amount must have at most 2 decimal places.";
     private static final String EMPTY_SPACE = " ";
 
     private static final int MINIMUM_INDEX = 0;
@@ -112,20 +118,26 @@ public class UpdateExpenseCommand extends Command {
 
     private static String getUpdatedCategory(String input, String currentCategory)
             throws MissingCategoryException {
+        // Matcher for the category in the input
         Matcher matcher = CATEGORY_PATTERN.matcher(input);
         if (matcher.find()) {
             String extractedCategory = matcher.group(UPDATE_PARAMETER_GROUP).trim();
-            if (extractedCategory.isEmpty()) {
-                throw new MissingCategoryException(ERROR_INVALID_CATEGORY);
+
+            // Check if the category contains only alphanumeric characters (no symbols allowed)
+            if (!extractedCategory.matches(CATEGORY_REGEX)) {  // CATEGORY_REGEX = "^[a-zA-Z0-9]+$"
+                logger.severe("Invalid category input detected: " + extractedCategory);
+                throw new MissingCategoryException(ERROR_INVALID_CATEGORY);  // Throw the exception for invalid category
             }
-            return extractedCategory;
+
+            return extractedCategory;  // Return valid category
         }
 
+        // Handle case when category is not found in the input and check if the current category is valid
         if (currentCategory == null || currentCategory.trim().isEmpty()) {
-            throw new MissingCategoryException(ERROR_INVALID_CATEGORY);
+            throw new MissingCategoryException(ERROR_INVALID_CATEGORY);  // Throw exception if no valid category
         }
 
-        return currentCategory;
+        return currentCategory;  // Return current category if valid
     }
 
     private static String getUpdatedDescription(String input, String currentDescription)
@@ -133,9 +145,13 @@ public class UpdateExpenseCommand extends Command {
         Matcher matcher = DESC_PATTERN.matcher(input);
         if (matcher.find()) {
             String extractedDescription = matcher.group(UPDATE_PARAMETER_GROUP).trim();
-            if (extractedDescription.isEmpty()) {
+
+            // Explicitly check if description contains only alphanumeric characters
+            if (!extractedDescription.matches(DESCRIPTION_REGEX)) {
+                logger.severe("Invalid description input detected: " + extractedDescription);
                 throw new MissingDescriptionException(ERROR_INVALID_DESCRIPTION);
             }
+
             return extractedDescription;
         }
 
@@ -164,7 +180,22 @@ public class UpdateExpenseCommand extends Command {
         Matcher matcher = AMT_PATTERN.matcher(input);
         if (matcher.find()) {
             try {
-                return Double.parseDouble(matcher.group(UPDATE_PARAMETER_GROUP).trim());
+                String amountStr = matcher.group(UPDATE_PARAMETER_GROUP).trim();
+                Double amount = Double.parseDouble(amountStr);
+                String[] parts = amountStr.split("\\.");
+
+                String integerPart = parts[0];
+                if (integerPart.length() > MAX_DIGITS) {
+                    throw new InvalidNumberFormatException(ERROR_MORE_THAN_7_DIGITS);
+                }
+
+                if (parts.length > 1) {
+                    String decimalPart = parts[1];
+                    if (decimalPart.length() > MAX_DECIMAL_PLACES) {
+                        throw new InvalidNumberFormatException(ERROR_MORE_THAN_2_DP);
+                    }
+                }
+                return amount;
             } catch (NumberFormatException e) {
                 throw new InvalidNumberFormatException(ERROR_INVALID_AMOUNT);
             }
