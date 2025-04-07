@@ -3,26 +3,25 @@ hide circle
 skinparam classAttributeIconSize 0
 
 package budgetflow.command {
-    class "{abstract} \n Command" {
+    abstract class Command {
         - input: String
-        - commandType: CommandType
         - outputMessage: String
         + Command(String input)
-        + execute(List<Income> incomes, ExpenseList expenseList): void
+        + execute(List<Income>, ExpenseList): void
     }
 
-    class "FilterIncomeByCategoryCommand" {
+    class FilterIncomeByCategoryCommand {
         - {static} logger: Logger
         - {static} COMMAND_PREFIX: String
         + FilterIncomeByCategoryCommand(String input)
-        + execute(List<Income> incomes, ExpenseList expenseList) throws FinanceException
+        + execute(List<Income>, ExpenseList) throws FinanceException
     }
 
-    "FilterIncomeByCategoryCommand" --|> "{abstract} \n Command"
+    FilterIncomeByCategoryCommand --|> Command
 }
 
 package budgetflow.exception {
-    class "FinanceException"
+    class FinanceException
 }
 
 package budgetflow.expense {
@@ -41,17 +40,13 @@ package java.util {
     interface List
 }
 
-enum CommandType {
-    READ
-    // Other command types...
-}
-
 package java.util.logging {
     class Logger
 }
 
-"FilterIncomeByCategoryCommand" ..> "FinanceException" : throws
-"FilterIncomeByCategoryCommand" ..> "Income" : uses
-"FilterIncomeByCategoryCommand" ..> "ExpenseList" : uses
-"FilterIncomeByCategoryCommand" ..> "Logger" : uses
+' Show "throws", "uses" relationships:
+FilterIncomeByCategoryCommand ..> FinanceException : throws
+FilterIncomeByCategoryCommand ..> Income : uses
+FilterIncomeByCategoryCommand ..> ExpenseList : uses
+FilterIncomeByCategoryCommand ..> Logger : uses
 @enduml

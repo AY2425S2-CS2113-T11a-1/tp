@@ -1,61 +1,124 @@
 @startuml
 actor User
 participant "FilterIncomeByDateCommand" as Command
-participant "Regex Matcher (from)" as MatcherFrom
-participant "Regex Matcher (to)" as MatcherTo
+participant "Regex Matcher from" as MatcherFrom
+participant "Regex Matcher to" as MatcherTo
 participant "DateValidator" as DV
 participant "Income" as Income
 participant "Logger" as Logger
 
-User -> Command: execute(incomes, expenseList)
-activate Command
-note right: Remove command prefix and trim parameters
-Command -> Command: params = input.substring(COMMAND_PREFIX.length()).trim()
+'--------------------------
+' 1) Parameter Extraction
+'--------------------------
+group Parameter Extraction
+    User -> Command: execute(incomes, expenseList)
+    activate Command
+    note right: Remove command prefix and trim parameters
+    Command -> Command: params = input.substring(COMMAND_PREFIX.length()).trim()
 
-Command -> MatcherFrom: Pattern.compile("from/(\\S+)")
-note right: Create matcher for 'from' parameter
-MatcherFrom --> Command: fromMatcher (match found)
-Command -> MatcherTo: Pattern.compile("to/(\\S+)")
-note right: Create matcher for 'to' parameter
-MatcherTo --> Command: toMatcher (match found)
+    Command -> MatcherFrom: Pattern.compile("from/\\\\S+")
+    activate MatcherFrom
+    note right: Create matcher for 'from' parameter
+    MatcherFrom --> Command: fromMatcher (match found)
+    deactivate MatcherFrom
 
-Command -> Command: fromDateStr = fromMatcher.group(1)
-Command -> Command: toDateStr = toMatcher.group(1)
+    Command -> MatcherTo: Pattern.compile("to/\\\\S+")
+    activate MatcherTo
+    note right: Create matcher for 'to' parameter
+    MatcherTo --> Command: toMatcher (match found)
+    deactivate MatcherTo
 
-Command -> DV: isValidDate(fromDateStr)
-DV --> Command: true/false
-Command -> DV: isValidDate(toDateStr)
-DV --> Command: true/false
+    Command -> Command: fromDateStr = fromMatcher.group(1)
+    Command -> Command: toDateStr = toMatcher.group(1)
+end
 
-alt One or both dates are invalid
-    Command -> User: throw FinanceException("One or both dates are invalid. Please use DD-MM-YYYY format.")
-else Dates are valid
-    Command -> DV: getFullDateFormatter()
-    Command -> Command: fromDate = LocalDate.parse(fromDateStr, formatter)
-    Command -> Command: toDate = LocalDate.parse(toDateStr, formatter)
-    alt fromDate is after toDate
-        Command -> User: throw FinanceException("Start date must be before or equal to end date.")
-    else Date range valid
-        Command -> Command: Initialize outputMessage header
-        loop For each Income in incomes
-            Command -> Income: getDate()
-            alt DateValidator.isValidDate(income.getDate()) is true
-                Command -> DV: getFullDateFormatter()
-                Command -> Command: incomeDate = LocalDate.parse(income.getDate(), formatter)
-                alt incomeDate in [fromDate, toDate]
-                    Command -> Income: getCategory()
-                    Command -> Income: getAmount()
-                    Command -> Income: getDate()
-                    Command -> Command: Append income details to outputMessage
-                end
-            else
-                note right: Skip invalid date income
-            end
+'--------------------------
+' 2) Date Validation
+'--------------------------
+group Date Validation
+    Command -> DV: isValidDate(fromDateStr)
+    activate DV
+    DV --> Command: true/false
+    deactivate DV
+
+    Command -> DV: isValidDate(toDateStr)
+    activate DV
+    DV --> Command: true/false
+    deactivate DV
+
+    alt One or both dates are invalid
+        Command -> User: throw FinanceException("One or both dates are invalid. Use DD-MM-YYYY format.")
+        deactivate Command
+    else Dates are valid
+        Command -> DV: getFullDateFormatter()
+        activate DV
+        DV --> Command: formatter
+        deactivate DV
+
+        Command -> Command: fromDate = LocalDate.parse(fromDateStr, formatter)
+        Command -> Command: toDate = LocalDate.parse(toDateStr, formatter)
+
+        alt fromDate is after toDate
+            Command -> User: throw FinanceException("Start date must be before or equal to end date.")
+            deactivate Command
         end
-        Command -> Command: If no matching income, append "No incomes found..."
     end
 end
-Command -> Logger: info("Filtered incomes by date: " + outputMessage)
-Command -> User: Return outputMessage
-deactivate Command
+
+'--------------------------
+' 3) Income Filtering
+'--------------------------
+group Income Filtering
+    Command -> Command: Initialize outputMessage header
+    loop For each Income in incomes
+        Command -> Income: getDate()
+        activate Income
+        Income --> Command: date
+        deactivate Income
+
+        alt DateValidator.isValidDate(income.getDate()) is true
+            Command -> DV: getFullDateFormatter()
+            activate DV
+            DV --> Command: formatter
+            deactivate DV
+
+            Command -> Command: incomeDate = LocalDate.parse(income.getDate(), formatter)
+            alt incomeDate in [fromDate, toDate]
+                Command -> Income: getCategory()
+                activate Income
+                Income --> Command: category
+                deactivate Income
+
+                Command -> Income: getAmount()
+                activate Income
+                Income --> Command: amount
+                deactivate Income
+
+                Command -> Income: getDate()
+                activate Income
+                Income --> Command: date
+                deactivate Income
+
+                Command -> Command: Append income details to outputMessage
+            end
+        else
+            note right: Skip invalid date income
+        end
+    end
+    Command -> Command: If no matching income, append "No incomes found..."
+end
+
+'--------------------------
+' 4) Logging & Return
+'--------------------------
+group Logging & Return
+    Command -> Logger: info("Filtered incomes by date: " + outputMessage)
+    activate Logger
+    Logger --> Command: logged
+    deactivate Logger
+
+    Command -> User: Return outputMessage
+    deactivate Command
+end
+
 @enduml
