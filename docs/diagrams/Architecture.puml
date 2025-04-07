@@ -38,4 +38,11 @@ legend right
   Interaction: Communication flow between components.
 endlegend
 
+' Legend for arrow types
+legend bottom
+  Solid arrow  : Direct interaction (e.g., User interacts with system)
+  Dotted arrow  : Dependency (e.g., One component relies on another)
+  Solid line with diamond  : Composition (e.g., Strong ownership, one cannot exist without the other)
+endlegend
+
 @enduml

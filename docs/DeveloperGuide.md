@@ -1,6 +1,6 @@
 # Developer Guide
 <br><br>
-![](images/icon.png)<br>
+![](images/Icon.png)<br>
 
 Anak Agung Gde Yogi Pramana<br>
 
@@ -32,7 +32,7 @@ Tran Hoang Thien Kim<br>
   * [Viewing All Expenses](#viewing-all-expenses) <br>
   * [Listing All Incomes](#listing-all-incomes) <br>
   * [Filtering Expenses](#filtering-expenses) <br>
-  * [Filtering Incomes by Amount or by Category](#filtering-incomes-by-amount-or-by-category) <br>
+  * [Filtering Incomes by Amount or by Category](#filtering-incomes) <br>
   * [Deleting an Income Entry](#deleting-an-income-entry) <br>
   * [Updating an Expense Entry](#deleting-an-expense-entry) <br>
   * [Set Saving Goal](#set-saving-goal) <br>
@@ -68,12 +68,11 @@ First, **fork** this repo, and **clone** the fork into your computer.
 
 ##### If you plan to use Intellij IDEA (highly recommended):
 
-**Configure the JDK:** Follow the guide [se-edu/guides] IDEA: Configuring the JDK to ensure Intellij is configured to use JDK 17.
+**Configure the JDK:** Ensure that IntelliJ IDEA is set up to use JDK 17 by following the [se-edu guide](https://se-education.org/guides/tutorials/intellijImportGradleProject.html). 
+This step is essential for proper project configuration and compatibility.
 
-**Import the project as a Gradle project:** For instructions on importing a Gradle project into IntelliJ IDEA, refer to the [se-edu guide](https://se-education.org/guides/tutorials/intellijImportGradleProject.html).
 
-
-<div style="background-color: #89CFF0; border-left: 6px solid #ffa502; padding: 10px;">
+<div style="background-color: #89CFF0; border-left: 6px solid #ffa502; padding: 10px; color: black;">
 <strong> Note: </strong> Importing a Gradle project is slightly different from importing a normal Java project.
 </div>
 <br/>
@@ -96,8 +95,8 @@ The __Architecture Diagram__ above explains the high-level design of the applica
 * `Main` (including `MainTracker` and `FinanceTracker`): in charge of main flow of application from launch to shut down:  
   * At the launch of application, it initializes all components and connect them in correct order.  
   * During the run of application, it manages all components, including invoking method for UI's display, command's execution and saving data. 
-  * At the shut-down of application, in is in charge of shut down application and all components with clean up if necessary.  
-* `Storage`: storing data in hard disk and loading them during the run of application.
+  * When shutting down the application, all components will clean up if necessary.  
+* `Storage`: storing data in hard disk and loading them when the application run.
 * `UI`: managing user's communication with application and displaying messages to user.
 * `Model`: holds the data of the app relating to incomes and expenses.
 * `Parser`: parsing user's string command and convert them into commands.
@@ -110,10 +109,10 @@ The `UI` component consists of Ui class, which handles user interactions by read
 This serves as the main interface for communication between user and the Finance Tracker application  
 
 Some method details of Ui class is noted as below:  
-* `public void showWelcome()`: print out the welcome message for the user at the launch of application.
-* `publc String readCommand()`: read the command entered by the user using Scanner object and return the input.
+* `public void showWelcome()`: print out the welcome message for the user when launching the application.
+* `public String readCommand()`: read the command entered by the user using Scanner object and return the input.
 The sequence diagram below illustrates iteractions within Ui component under `readCommand()` call.  
-  ![UI read command Diagram](images/UI_readCommandSequence.png)  
+  ![UI read command Diagram](images/Ui_readCommandSequence.png)  
 If no input is parsed by user, the programme continues to wait for new input and repeat scanning as shown below:  
   ![ref Diagram](images/refGetCommand.png)  
 * `public void printError(String error)`: print out the error message for user by passing the string error message.
@@ -193,7 +192,7 @@ Scenario: User keys in ```add category/Salary amt/2500.00 d/01-01-2024``` to the
 When executed, the command:
 1. User Input to Parser: The process begins with the User entering a command into the UI: ```add category/Salary amt/2500.00 d/01-01-2024```. Then, the UI component receives this input and forwards it to the Parser component by calling the method ```getCommandFromInput()``` with the user's text as a parameter. The Parser then checks if the input starts with ```add category/``` to determine what type of command it is.
    After validating the command type, the Parser creates a new ```AddIncomeCommand``` object using the input data and returns it to the UI.
-![](./diagrams/add_income_command_sequence_inputparser.png)
+![](./diagrams/addincome_sequence_input_parser.png)
 2. Command Execution Initialization: The function ```execute(incomes, expenseList)``` is responsible for handling financial data, specifically income entries and an expense list. When called, it processes the incomes list, adding new income records.
 ![](./diagrams/addincome_sequence_commandinitialization.png)
 3. Income Information Extraction: The function ```extractIncome(input)``` in ```AddIncomeCommand``` processes an input string to extract income details. It:
@@ -206,7 +205,7 @@ Finally, it validates that the category is not empty and the amount is not null.
 The ```AddIncomeCommand``` adds the newly created incomeObject to an IncomeList. The IncomeList's add() method is called, which is activated to insert the income into the list. The list then returns control to AddIncomeCommand.
 ![](./diagrams/addincome_sequence_storage.png)
 5. Completion and Result Return: Illustrates how the success message is formatted and returned to the UI for display to the user.
-![](./diagrams/addincome_sequence_result.pngk)
+![](./diagrams/addincome_sequence_result.png)
 #### Exception Handling
 
 The `AddIncomeCommand` implements robust error handling through a series of custom exceptions:

@@ -17,6 +17,7 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+//@@author dariusyawningwhiz
 /**
  * Command to update an existing expense entry.
  * This command extracts and updates specified attributes of an expense entry
@@ -215,6 +216,7 @@ public class UpdateExpenseCommand extends Command {
      * @throws MissingDescriptionException If the description is missing.
      * @throws InvalidDateException If the date format is invalid.
      */
+    //@@author dariusyawningwhiz
     @Override
     public void execute(List<Income> incomes, ExpenseList expenseList)
             throws MissingDateException, InvalidNumberFormatException,
@@ -267,6 +269,7 @@ public class UpdateExpenseCommand extends Command {
         logger.info("Expense updated successfully: " + existingExpense);
     }
 
+    //@@author dariusyawningwhiz
     /**
      * Extracts and applies updated attributes to an existing expense entry.
      *
