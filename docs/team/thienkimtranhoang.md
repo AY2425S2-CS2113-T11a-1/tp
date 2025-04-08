@@ -33,11 +33,11 @@ filter them by category or date, and analyze their financial habits. It is writt
     * **Justification:** This feature empowers users to plan their finances strategically by setting clear savings goals. It enhances motivation by providing a measurable target and allowing users to track progress.
     * **Highlights:** The feature ensures users can manage their financial goals effectively, making adjustments as needed to stay on track toward achieving their savings targets.
 
-*__Enhancements to existing features:__
-    * Added add-on information of saving goal and saving progress to list income command  [#97](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/97)
-    * Enhance date validator for add income and log-expense command, ensuring the year format stay resonable with 4 digits [[#190]](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/190)
-    * Fixed bugs for Date Validator in Add Income and Log Expense [[#196]](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/196)
-    * Added comprehensive Junit Test Cases for Add Income, Log Expense, Set Saving Goal, Filter Expense, List Income, View Expense, ExpenseList and Parser [[#206]](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/206)
+* __Enhancements to existing features:__
+  * Added add-on information of saving goal and saving progress to list income command  [#97](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/97)
+  * Enhance date validator for add income and log-expense command, ensuring the year format stay resonable with 4 digits [[#190]](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/190)
+  * Fixed bugs for Date Validator in Add Income and Log Expense [[#196]](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/196)
+  * Added comprehensive Junit Test Cases for Add Income, Log Expense, Set Saving Goal, Filter Expense, List Income, View Expense, ExpenseList and Parser [[#206]](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/206)
 * __Code Contributed:__ [RepoSense Link](https://nus-cs2113-ay2425s2.github.io/tp-dashboard/?search=thienkim&sort=groupTitle&sortWithin=title&timeframe=commit&mergegroup=&groupSelect=groupByRepos&breakdown=true&checkedFileTypes=docs~functional-code~test-code~other&since=2025-02-21)
   <br><br>
 * __Project Management:__
@@ -45,16 +45,16 @@ filter them by category or date, and analyze their financial habits. It is writt
       <br><br>
 * __Documentation:__
     * User Guide:
-        * Added documentation for ```add income``` and ```set saving goal``` command
-        * Updated documentation for other commands sequence diagram
-        * Added comprehensive notes for command formats
+        * Added documentation for ```add income``` and ```set saving goal``` [[#110]](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/110)
+        * Updated documentation for other commands sequence diagram [[#119]](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/119)
+        * Added comprehensive notes for command formats[[#119]](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/119)
     * Developer Guide:
-        * Added Setting-up instructions
-        * Added documentation for ```add income``` command and ```set saving goal``` command 
-        * Added documentation for ```FinanceTracker``` class 
-        * Added documentation for ```Income``` class
-        * Added documentation for `Documentation` part
-        * Updated more information for non-functional requirement
+        * Added Setting-up instructions [[#113]](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/113)
+        * Added documentation for ```add income``` command and ```set saving goal``` command [[#110]](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/110)
+        * Added documentation for ```FinanceTracker``` class [[#119]](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/119)
+        * Added documentation for ```Income``` class [[#119]](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/119)
+        * Added documentation for `Documentation` part [[#217]](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/217)
+        * Updated more information for non-functional requirement [[#110]](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/110)
           <br><br>
 * __Community:__
     * Reviewed Developer Guide of the team and fixed format error
